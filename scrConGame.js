@@ -56,23 +56,17 @@ for (i = 1; i <= levels_amount; i++;)
 }
 */
 
-
-function Start () {
+function CreatePeople (amount : int) {
 	var anchor : Array = [0,0];
-	var grid = SpaceGrid(2,2,10,anchor);
-	for (var i = 0; i < 10; i++) {
+	var grid = SpaceGrid(2,2,amount,anchor);
+	for (var i = 0; i < amount; i++) {
 		var obj : GameObject = Instantiate(Resources.Load("Prefabs/Person"));
 		obj.rigidbody.position = Vector3(grid[i,0], 3, grid[i,1]);
+		obj.GetComponent(scrPerson).personNum = i;
 	}
 }
 
-function Update () {
-	if (Input.GetMouseButtonDown(0) == true) {
-		var anchor : Array = [0,0];
-		var grid = SpaceGrid(2,2,10,anchor);
-		for (var i = 0; i < 10; i++) {
-			var obj : GameObject = Instantiate(Resources.Load("Prefabs/Person"));
-			obj.rigidbody.position = Vector3(grid[i,0], 3, grid[i,1]);
-		}
-	}
+function Start () {
+	CreatePeople (20);
 }
+
