@@ -62,11 +62,11 @@ function CreatePeople (amount : int) {
 	for (var i = 0; i < amount; i++) {
 		var obj : GameObject = Instantiate(Resources.Load("Prefabs/Person"));
 		obj.rigidbody.position = Vector3(grid[i,0], 3, grid[i,1]);
-		obj.GetComponent(scrPerson).personNum = i;
+		obj.GetComponent(scrPerson).personNum = i + 1;
 	}
 }
 
 function Start () {
-	CreatePeople (20);
+	CreatePeople (30);
 }
 
