@@ -39,6 +39,7 @@ function SpaceGrid (horSpace : float, verSpace : float, amount : int, anchor : A
 	    grid[i,1] = pos[1];
 	}
 	return grid;
+	Debug.Log("created grid");
 };
 
 // Sounds
@@ -54,11 +55,24 @@ for (i = 1; i <= levels_amount; i++;)
     gym_levels_state[i, 0] = false;
 }
 */
+
+
 function Start () {
 	var anchor : Array = [0,0];
-	var grid = SpaceGrid(1,1,10,anchor);
+	var grid = SpaceGrid(2,2,10,anchor);
+	for (var i = 0; i < 10; i++) {
+		var obj : GameObject = Instantiate(Resources.Load("Prefabs/Person"));
+		obj.rigidbody.position = Vector3(grid[i,0], 3, grid[i,1]);
+	}
 }
 
 function Update () {
-	
+	if (Input.GetMouseButtonDown(0) == true) {
+		var anchor : Array = [0,0];
+		var grid = SpaceGrid(2,2,10,anchor);
+		for (var i = 0; i < 10; i++) {
+			var obj : GameObject = Instantiate(Resources.Load("Prefabs/Person"));
+			obj.rigidbody.position = Vector3(grid[i,0], 3, grid[i,1]);
+		}
+	}
 }
