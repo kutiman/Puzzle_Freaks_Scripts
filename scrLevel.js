@@ -108,12 +108,13 @@ function answerWrong () {
 }
 
 function ShuffleArray (myArray : Array) {
-   /*var m = myArray.length;
+   var m = myArray.length;
    while (m) {
-     var i = Mathf.Floor((Random.Range(0, myArray.length)) * m--);
+     var i = Mathf.Floor((Random.Range(0, myArray.length)));
+     m--;
      var t = myArray[m];
      myArray[m] = myArray[i];
      myArray[i] = t;
-   }*/
+   }
    return myArray;
 }
