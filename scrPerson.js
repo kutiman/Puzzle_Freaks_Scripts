@@ -5,7 +5,8 @@ var nextStep = 0.0;
 var personNum = 1;
 var subImage = 0;
 var sprList = new Array();
-
+var winner = false;
+var chosen = false;
 
 function GetSpriteList (personNum) {
 	var spriteList = new Array();
@@ -20,8 +21,13 @@ function Start () {
 	//Debug.Log(sprList[3].ToString());
 }
 
-function OnMouseDown () {}
-	
+function OnMouseDown () {
+	Debug.Log("Person been clicked" + personNum.ToString());
+	if (winner) {
+		chosen = true;
+	}
+}
+
 
 function Dance (danceSpeed : float) {
 
