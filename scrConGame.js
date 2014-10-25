@@ -15,7 +15,12 @@ function CreateText (textString : String) {
 }
 
 function Start () {
-	var go : GameObject = Instantiate(Resources.Load("Prefabs/conLevel"));
+	Menu();
+}
+
+function Menu () {
+	var go : GameObject = Instantiate(Resources.Load("Prefabs/MenuLevel"));
+	go.transform.parent = gameObject.transform;
 }
 
  

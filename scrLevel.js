@@ -84,7 +84,8 @@ function ShuffleRoundDuplicates (amount : int, winners : int) {
 	var grid = SpaceGrid(2,2,amount,anchor);
 	for (var item = 0; item < peopleList.length; item++) {
 		var obj : GameObject = Instantiate(Resources.Load("Prefabs/Person"));
-		obj.rigidbody.position = Vector3(grid[item,0], grid[item,1], -3);
+		obj.transform.parent = gameObject.transform;
+		obj.transform.position = Vector3(grid[item,0], grid[item,1], -3);
 		obj.GetComponent(scrPerson).personNum = peopleList[item];
 		if (peopleList[item] == winnerNum) {
 			obj.GetComponent(scrPerson).winner = true;
