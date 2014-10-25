@@ -7,6 +7,7 @@ var subImage = 0;
 var sprList = new Array();
 var winner = false;
 var chosen = false;
+gameObject.tag = "tagPerson";
 
 function GetSpriteList (personNum) {
 	var spriteList = new Array();
@@ -44,4 +45,8 @@ function Dance (danceSpeed : float) {
 
 function Update () {
 	Dance(0.45);
+}
+
+function Die () {
+	Destroy(gameObject);
 }

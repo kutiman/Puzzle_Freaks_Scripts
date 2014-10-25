@@ -64,8 +64,9 @@ function CheckArray (arr : Array, n) {
     return exists;
 }
 
-function CreateDupLevel (amount : int, winners : int) {
+function ShuffleRoundDuplicates (amount : int, winners : int) {
 	
+	DestroyPeople();
 	var totalPeople = 30;
 	var peopleList = new Array();
 	while (peopleList.length <= amount - winners) {
@@ -92,29 +93,48 @@ function CreateDupLevel (amount : int, winners : int) {
 }
 
 function Start () {
-	CreateDupLevel(10,2);
+	ShuffleRoundDuplicates(10,2);
 }
 
 function Update () {
-
+	if (Input.GetKeyDown ("space")) {
+		ShuffleRoundDuplicates(10,2);
+	}
+	var chosens = 0;
+	var objs = GameObject.FindGameObjectsWithTag ("tagPerson");
+	for (var obj : GameObject in objs) {
+		if (obj.GetComponent(scrPerson).chosen == true) {
+			chosens++;
+		}
+	}
+	if (chosens == winners) {
+		ShuffleRoundDuplicates(10,2);
+	}
 }
 
 function answerCorrect () {
-	
+
 }
 
 function answerWrong () {
 	
 }
 
+function DestroyPeople () {
+	var objs = GameObject.FindGameObjectsWithTag ("tagPerson");
+	for (var obj : GameObject in objs) {
+		obj.GetComponent(scrPerson).Die();
+	}
+}
+
 function ShuffleArray (myArray : Array) {
    var m = myArray.length;
    while (m) {
-     var i = Mathf.Floor((Random.Range(0, myArray.length)));
-     m--;
-     var t = myArray[m];
-     myArray[m] = myArray[i];
-     myArray[i] = t;
+		var i = Mathf.Floor((Random.Range(0, myArray.length)));
+		m--;
+		var t = myArray[m];
+		myArray[m] = myArray[i];
+		myArray[i] = t;
    }
    return myArray;
 }
