@@ -96,13 +96,15 @@ function ShuffleRoundDuplicates (amount : int, winners : int) {
 }
 
 function Start () {
+	gameObject.name = "conLevel";
 	LevelProperties();
 	ShuffleRoundDuplicates(peopleAmount,winners);
+	CreateTimer();
 }
 
 function Update () {
 	if (Input.GetKeyDown ("space")) {
-		ShuffleRoundDuplicates(10,2);
+		DestroyTimer ();
 	}
 	var chosens = 0;
 	var objs = GameObject.FindGameObjectsWithTag ("tagPerson");
@@ -111,8 +113,16 @@ function Update () {
 			chosens++;
 		}
 	}
-	if (chosens == winners) {
-		ShuffleRoundDuplicates(10,2);
+
+	
+	if (gameWon == false && neededAnswers > 0 && neededAnswers == correctAnswers) {
+		GameWon();
+		gameWon = true;
+	}
+	
+	if (chosens == winners && !gameWon) {
+	correctAnswers++;
+	ShuffleRoundDuplicates(peopleAmount,winners);
 	}
 }
 
@@ -175,4 +185,36 @@ function LevelProperties () {
 	neededAnswers = props[2];
 	peopleAmount = props[3];
 	winners = props[4];
+}
+
+function CreateTimer () {
+	var obj : GameObject = Instantiate(Resources.Load("Prefabs/objTimer"));
+	obj.transform.parent = gameObject.transform;
+	obj.GetComponent(scrTimer).timeToCount = levelDuration;
+}
+
+function DestroyTimer () {
+	var obj : GameObject = GameObject.Find("objTimer");
+	if (obj) {
+		GameObject.Destroy(obj);
+	}
+}
+
+function GameWon() {
+	DestroyPeople();
+	DestroyTimer();
+	var obj : GameObject = Instantiate(Resources.Load("Prefabs/MenuEnd"));
+}
+
+function TimeOut () {
+	DestroyPeople();
+	DestroyTimer();
+	var obj : GameObject = Instantiate(Resources.Load("Prefabs/MenuEnd"));
+}
+
+function Restart() {
+	ShuffleRoundDuplicates(peopleAmount,winners);
+	CreateTimer();
+	gameWon = false;
+	correctAnswers = 0;
 }
