@@ -1,9 +1,13 @@
 ﻿#pragma strict
 
 var level = 0;
+
+// level prperties
 var levelDuration = 0;
 var roundDuration = 0;
-var levelCoins = 0;
+var peopleAmount = 30;
+var neededAnswers = 0;
+var winners = 2;
 
 var start = false;
 var gameOver = false;
@@ -12,11 +16,9 @@ var restart = false;
 
 var peopleState = "normal";
 var game = "duplicate";
-var peopleAmount = 30;
-var neededAnswers = 0;
+var levelCoins = 0;
 var correctAnswers = 0;
 
-var winners = 2;
 var majDifference = 1;
 var majGroups = 2;
 
@@ -94,7 +96,8 @@ function ShuffleRoundDuplicates (amount : int, winners : int) {
 }
 
 function Start () {
-	ShuffleRoundDuplicates(10,2);
+	LevelProperties();
+	ShuffleRoundDuplicates(peopleAmount,winners);
 }
 
 function Update () {
@@ -138,4 +141,38 @@ function ShuffleArray (myArray : Array) {
 		myArray[i] = t;
    }
    return myArray;
+}
+
+function LevelProperties () {
+	var props : Array = new Array();
+		// [levelDuration,roundDuration,neededAnswers,peopleAmount,winners] 
+	switch (level) {
+		case 0: break;
+		case 1: props = [20,6,5,10,2]; break;
+		case 2: props = [20,6,5,12,2]; break;
+		case 3: props = [20,6,5,14,2]; break;
+		case 4: props = [20,6,5,16,2]; break;
+		case 5: props = [20,6,5,18,2]; break;
+		case 6: props = [20,6,5,20,2]; break;
+		case 7: props = [20,6,5,22,2]; break;
+		case 8: props = [20,6,5,24,2]; break;
+		case 9: props = [20,6,5,26,2]; break;
+		case 10: props = [20,6,5,28,2]; break;
+		case 11: props = [20,6,5,30,2]; break;
+		case 12: props = [20,6,5,10,2]; break;
+		case 13: props = [20,6,5,10,2]; break;
+		case 14: props = [20,6,5,10,2]; break;
+		case 15: props = [20,6,5,10,2]; break;
+		case 16: props = [20,6,5,10,2]; break;
+		case 17: props = [20,6,5,10,2]; break;
+		case 18: props = [20,6,5,10,2]; break;
+		case 19: props = [20,6,5,10,2]; break;
+		case 20: props = [20,6,5,10,2]; break;
+		default: break;
+	}
+	levelDuration = props[0];
+	roundDuration = props[1];
+	neededAnswers = props[2];
+	peopleAmount = props[3];
+	winners = props[4];
 }
