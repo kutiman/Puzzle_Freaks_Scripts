@@ -11,8 +11,8 @@ function Update () {
 }
 
 function PlayButton () {
-	//var obj : GameObject = Instantiate(Resources.Load("Prefabs/Buttons/btnPlay"));
-	//obj.transform.parent = gameObject.transform;
+	var obj : GameObject = Instantiate(Resources.Load("Prefabs/Buttons/btnPlay"));
+	obj.transform.parent = gameObject.transform;
 }
 
 function Play () {

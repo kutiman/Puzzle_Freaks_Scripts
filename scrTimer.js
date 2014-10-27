@@ -3,10 +3,17 @@
 var startTime = 0;
 var timeToCount = 0.0;
 var timeEnded = false;
+var ticks : Array = new Array(AudioSource);
+var audioClip = new AudioClip[10];
+var audioSource = new AudioSource[10];
+
+var lastSecond : int = 0;
+var newSecond : int = 0;
 
 function Start () {
 	gameObject.name = "objTimer";
 	startTime = Time.time;
+	SetSounds ();
 }
 
 function Update () {
@@ -23,5 +30,27 @@ function Update () {
 		var con : GameObject = GameObject.Find("conLevel");
 		con.GetComponent(scrLevel).TimeOut();
 		timeEnded = true;
+	}
+
+	newSecond = Mathf.CeilToInt(counter);
+	if (newSecond > 0 && newSecond <= 10 && newSecond < lastSecond){
+		audioSource[newSecond - 1].Play();
+	}
+	
+	lastSecond = Mathf.CeilToInt(counter);
+}
+
+function SetSounds () {
+	var ticksAmount = 10;
+	for (var i = 0; i < ticksAmount; i++) {
+		audioClip[i] = Resources.Load("Sounds/snd_clock_tick" + (i + 1).ToString());
+	}
+	
+	audioSource = new AudioSource[audioClip.Length];
+	for (var n = 0; n < audioSource.Length; n++) {
+		audioSource[n] = gameObject.AddComponent(AudioSource);
+		audioSource[n].clip = audioClip[n];
+		audioSource[n].loop = false;
+		audioSource[n].playOnAwake = false;
 	}
 }

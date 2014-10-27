@@ -1,7 +1,7 @@
 ﻿#pragma strict
 
 var level = 0;
-
+var totalLevels = 20;
 // level prperties
 var levelDuration = 0;
 var roundDuration = 0;
@@ -83,7 +83,7 @@ function ShuffleRoundDuplicates (amount : int, winners : int) {
 	}
 	peopleList = ShuffleArray(peopleList);
 	var anchor : Array = [0,0];
-	var grid = SpaceGrid(2,2,amount,anchor);
+	var grid = SpaceGrid(2.5,2.5,amount,anchor);
 	for (var item = 0; item < peopleList.length; item++) {
 		var obj : GameObject = Instantiate(Resources.Load("Prefabs/Person"));
 		obj.transform.parent = gameObject.transform;
@@ -97,15 +97,10 @@ function ShuffleRoundDuplicates (amount : int, winners : int) {
 
 function Start () {
 	gameObject.name = "conLevel";
-	LevelProperties();
-	ShuffleRoundDuplicates(peopleAmount,winners);
-	CreateTimer();
+	Restart();
 }
 
 function Update () {
-	if (Input.GetKeyDown ("space")) {
-		DestroyTimer ();
-	}
 	var chosens = 0;
 	var objs = GameObject.FindGameObjectsWithTag ("tagPerson");
 	for (var obj : GameObject in objs) {
@@ -117,7 +112,6 @@ function Update () {
 	
 	if (gameWon == false && neededAnswers > 0 && neededAnswers == correctAnswers) {
 		GameWon();
-		gameWon = true;
 	}
 	
 	if (chosens == winners && !gameWon) {
@@ -158,7 +152,7 @@ function LevelProperties () {
 		// [levelDuration,roundDuration,neededAnswers,peopleAmount,winners] 
 	switch (level) {
 		case 0: break;
-		case 1: props = [20,6,5,10,2]; break;
+		case 1: props = [20,6,1,10,2]; break;
 		case 2: props = [20,6,5,12,2]; break;
 		case 3: props = [20,6,5,14,2]; break;
 		case 4: props = [20,6,5,16,2]; break;
@@ -201,20 +195,32 @@ function DestroyTimer () {
 }
 
 function GameWon() {
+	GetComponent(AudioSource).Stop();
+	gameWon = true;
 	DestroyPeople();
 	DestroyTimer();
 	var obj : GameObject = Instantiate(Resources.Load("Prefabs/MenuEnd"));
 }
 
 function TimeOut () {
+	GetComponent(AudioSource).Stop();
 	DestroyPeople();
 	DestroyTimer();
 	var obj : GameObject = Instantiate(Resources.Load("Prefabs/MenuEnd"));
 }
 
 function Restart() {
+	LevelProperties();
 	ShuffleRoundDuplicates(peopleAmount,winners);
 	CreateTimer();
+	GetComponent(AudioSource).Play();
 	gameWon = false;
 	correctAnswers = 0;
+}
+
+function NextLevel () {
+	if (level < totalLevels) {
+		level++;
+		Restart();
+	}
 }

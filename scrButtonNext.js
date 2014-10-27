@@ -1,5 +1,5 @@
 ﻿#pragma strict
-public class scrButtonRestart extends scrButtonParent {
+public class scrButtonNext extends scrButtonParent {
 	var menu : GameObject;
 	function Start () {
 		super();
@@ -8,7 +8,7 @@ public class scrButtonRestart extends scrButtonParent {
 		obj.transform.parent = gameObject.transform;
 		obj.transform.localPosition = Vector3(0,0,-1);
 		var tm : TextMesh = obj.GetComponent(TextMesh);
-		tm.text = "Restart";
+		tm.text = "Next";
 	}
 
 	function Update () {
@@ -17,7 +17,7 @@ public class scrButtonRestart extends scrButtonParent {
 	
 	function OnMouseDown () {
 		var obj : GameObject = GameObject.Find("conLevel");
-		obj.GetComponent(scrLevel).Restart();
+		obj.GetComponent(scrLevel).NextLevel();
 		menu.GetComponent(scrMenuEnd).DestroySelf();
 	}
 }
