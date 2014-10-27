@@ -1,6 +1,6 @@
 ﻿#pragma strict
 
-var nextStep = 0.1;
+var nextStep = 0.18;
 var personNum = 1;
 var subImage = 0;
 var sprList = new Array();
@@ -49,7 +49,7 @@ function Dance (danceSpeed : float) {
 }
 
 function Update () {
-	Dance(0.70);
+	Dance(0.67);
 }
 
 function Die () {

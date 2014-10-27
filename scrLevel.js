@@ -22,6 +22,13 @@ var correctAnswers = 0;
 var majDifference = 1;
 var majGroups = 2;
 
+var audioClip = new AudioClip[4];
+var audioSource = new AudioSource[4];
+
+var sndSuccess : AudioSource;
+var sndFail : AudioSource;
+var sndChimes : AudioSource;
+
 function SpaceGrid (horSpace : float, verSpace : float, amount : int, anchor : Array) {
 
 	var ancX : float = anchor[0];
@@ -93,9 +100,12 @@ function ShuffleRoundDuplicates (amount : int, winners : int) {
 			obj.GetComponent(scrPerson).winner = true;
 		}
 	}
+	
+	sndChimes.Play();
 }
 
 function Start () {
+	SetSounds();
 	gameObject.name = "conLevel";
 	Restart();
 }
@@ -115,13 +125,15 @@ function Update () {
 	}
 	
 	if (chosens == winners && !gameWon) {
-	correctAnswers++;
-	ShuffleRoundDuplicates(peopleAmount,winners);
+	answerCorrect();
 	}
 }
 
 function answerCorrect () {
-
+	correctAnswers++;
+	ShuffleRoundDuplicates(peopleAmount,winners);
+	var i = Random.Range(0,audioSource.Length);
+	audioSource[i].Play();
 }
 
 function answerWrong () {
@@ -152,7 +164,7 @@ function LevelProperties () {
 		// [levelDuration,roundDuration,neededAnswers,peopleAmount,winners] 
 	switch (level) {
 		case 0: break;
-		case 1: props = [20,6,1,10,2]; break;
+		case 1: props = [15,6,3,10,2]; break;
 		case 2: props = [20,6,5,12,2]; break;
 		case 3: props = [20,6,5,14,2]; break;
 		case 4: props = [20,6,5,16,2]; break;
@@ -196,6 +208,7 @@ function DestroyTimer () {
 
 function GameWon() {
 	GetComponent(AudioSource).Stop();
+	sndSuccess.Play();
 	gameWon = true;
 	DestroyPeople();
 	DestroyTimer();
@@ -204,6 +217,7 @@ function GameWon() {
 
 function TimeOut () {
 	GetComponent(AudioSource).Stop();
+	sndFail.Play();
 	DestroyPeople();
 	DestroyTimer();
 	var obj : GameObject = Instantiate(Resources.Load("Prefabs/MenuEnd"));
@@ -223,4 +237,27 @@ function NextLevel () {
 		level++;
 		Restart();
 	}
+}
+
+function SetSounds () {
+	audioClip[0] = Resources.Load("Sounds/snd_respect");
+	audioClip[1] = Resources.Load("Sounds/snd_so_easy");
+	audioClip[2] = Resources.Load("Sounds/snd_yeah");
+	audioClip[3] = Resources.Load("Sounds/snd_thats_right");
+	
+	audioSource = new AudioSource[audioClip.Length];
+	for (var n = 0; n < audioSource.Length; n++) {
+		audioSource[n] = gameObject.AddComponent(AudioSource);
+		audioSource[n].clip = audioClip[n];
+		audioSource[n].loop = false;
+		audioSource[n].playOnAwake = false;
+	}
+	sndSuccess = gameObject.AddComponent(AudioSource);
+	sndSuccess.clip = Resources.Load("Sounds/snd_clapping");
+	
+	sndFail = gameObject.AddComponent(AudioSource);
+	sndFail.clip = Resources.Load("Sounds/snd_time_up");
+	
+	sndChimes = gameObject.AddComponent(AudioSource);
+	sndChimes.clip = Resources.Load("Sounds/snd_chimes");
 }

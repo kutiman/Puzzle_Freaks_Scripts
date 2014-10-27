@@ -9,6 +9,7 @@ var audioSource = new AudioSource[10];
 
 var lastSecond : int = 0;
 var newSecond : int = 0;
+var counter : float;
 
 function Start () {
 	gameObject.name = "objTimer";
@@ -17,7 +18,10 @@ function Start () {
 }
 
 function Update () {
-	var counter = (startTime + timeToCount) - Time.time;
+	counter = (startTime + timeToCount) - Time.time;
+	if (Input.GetMouseButtonDown(0)) {
+		Debug.Log(counter);
+	}
 	if (counter < 0) {counter = 0;}
 	var seconds : int = Mathf.CeilToInt(counter % 60);
 	var minutes : int = Mathf.FloorToInt(counter/60);
@@ -33,8 +37,8 @@ function Update () {
 	}
 
 	newSecond = Mathf.CeilToInt(counter);
-	if (newSecond > 0 && newSecond <= 10 && newSecond < lastSecond){
-		audioSource[newSecond - 1].Play();
+	if (newSecond > 0 && newSecond <= 5 && newSecond < lastSecond){
+		audioSource[newSecond * 2 - 1].Play();
 	}
 	
 	lastSecond = Mathf.CeilToInt(counter);
