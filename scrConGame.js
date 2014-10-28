@@ -23,5 +23,15 @@ function Menu () {
 	go.transform.parent = gameObject.transform;
 }
 
+function Update () {
+	if (Input.GetMouseButton(0)) {
+		var obj : GameObject = Instantiate(Resources.Load("Prefabs/objCoin"));
+		var cam : Camera = GameObject.Find("MainCamera").camera;
+		var mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+		obj.transform.position = mousePos;
+		obj.transform.position.z = -10;
+	}
+}
+
  
 
