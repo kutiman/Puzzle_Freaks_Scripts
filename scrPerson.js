@@ -6,6 +6,12 @@ var subImage = 0;
 var sprList = new Array();
 var winner = false;
 var chosen = false;
+var hover = false;
+
+var pos : float;
+
+var par : GameObject;
+
 gameObject.tag = "tagPerson";
 
 var sound1 : AudioSource;
@@ -20,8 +26,11 @@ function GetSpriteList (personNum) {
 
 function Start () {
 	sprList = GetSpriteList(personNum);
-	//Debug.Log(sprList[3].ToString());
+	CreateParticleSystem();
+	par.GetComponent(scrParticles).PersonCreationBurst();
 	SetSounds();
+	
+	pos = gameObject.transform.position.y;
 }
 
 function OnMouseDown () {
@@ -49,7 +58,14 @@ function Dance (danceSpeed : float) {
 }
 
 function Update () {
-	Dance(0.67);
+	Dance(0.514);
+	
+	if (hover) {
+		transform.position.y = Mathf.Lerp(transform.position.y, pos + 0.2, Time.deltaTime * 8);
+	}
+	else {
+		transform.position.y = Mathf.Lerp(transform.position.y, pos, Time.deltaTime * 8);
+	}
 }
 
 function Die () {
@@ -61,3 +77,20 @@ function SetSounds () {
 	sound1.clip = Resources.Load("Sounds/snd_scratch");
 	sound1.playOnAwake = false;
 }
+
+function CreateParticleSystem () {
+	par = Instantiate(Resources.Load("Prefabs/Particles/PersonParticles"));
+	par.transform.parent = gameObject.transform;
+	par.transform.localPosition = Vector3(0,0,-1);
+}
+function OnMouseEnter () {
+	hover = true;
+}
+
+function OnMouseExit () {
+	hover = false;
+}
+
+
+
+

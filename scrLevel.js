@@ -165,7 +165,7 @@ function LevelProperties () {
 	switch (level) {
 		case 0: break;
 		case 1: props = [15,6,3,10,2]; break;
-		case 2: props = [20,6,5,12,2]; break;
+		case 2: props = [60,6,5,30,3]; break;
 		case 3: props = [20,6,5,14,2]; break;
 		case 4: props = [20,6,5,16,2]; break;
 		case 5: props = [20,6,5,18,2]; break;
