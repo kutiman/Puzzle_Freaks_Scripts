@@ -25,6 +25,9 @@ var majGroups = 2;
 var audioClip = new AudioClip[4];
 var audioSource = new AudioSource[4];
 
+var coinsAudioClip = new AudioClip[8];
+var coinsAudioSource = new AudioSource[8];
+
 var sndSuccess : AudioSource;
 var sndFail : AudioSource;
 var sndChimes : AudioSource;
@@ -260,4 +263,26 @@ function SetSounds () {
 	
 	sndChimes = gameObject.AddComponent(AudioSource);
 	sndChimes.clip = Resources.Load("Sounds/snd_chimes");
+	
+	coinsAudioClip[0] = Resources.Load("Sounds/snd_coin1");
+	coinsAudioClip[1] = Resources.Load("Sounds/snd_coin2");
+	coinsAudioClip[2] = Resources.Load("Sounds/snd_coin3");
+	coinsAudioClip[3] = Resources.Load("Sounds/snd_coin4");
+	coinsAudioClip[4] = Resources.Load("Sounds/snd_coin5");
+	coinsAudioClip[5] = Resources.Load("Sounds/snd_coin6");
+	coinsAudioClip[6] = Resources.Load("Sounds/snd_coin7");
+	coinsAudioClip[7] = Resources.Load("Sounds/snd_coin8");
+	
+	coinsAudioSource = new AudioSource[coinsAudioClip.Length];
+	for (var i = 0; i < coinsAudioSource.Length; i++) {
+		coinsAudioSource[i] = gameObject.AddComponent(AudioSource);
+		coinsAudioSource[i].clip = coinsAudioClip[i];
+		coinsAudioSource[i].loop = false;
+		coinsAudioSource[i].playOnAwake = false;
+	}
+}
+
+function PlayCoinSound () {
+	var i = Random.Range(0,coinsAudioSource.Length);
+	coinsAudioSource[i].Play();
 }

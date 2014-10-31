@@ -12,7 +12,14 @@ var lastStep : float = 0.0;
 var currentStep : float = 0.0;
 var pulledByMouse = false;
 
+var levelControllerScript : scrLevel;
+
+var coinsAudioClip = new AudioClip[8];
+var coinsAudioSource = new AudioSource[8];
+
 function Start () {
+	levelControllerScript = GameObject.Find("conLevel").GetComponent(scrLevel);
+	
 	timeBorn = Time.time;
 	currentStep = Time.time;
 	verSpeed = Random.Range(0.4, 0.5);
@@ -66,6 +73,7 @@ function OnMouseOver () {
 	var waitTime = 0.7;
 	if (Time.time - waitTime > timeBorn) {
 		scrConGame.totalCoins++;
+		levelControllerScript.PlayCoinSound();
 		gameObject.Destroy(gameObject);
 	}
 
@@ -85,7 +93,7 @@ function FlyToMouse () {
 	var myPos : Vector2 = gameObject.transform.position;
 	var distFromMouse = Vector2.Distance(mousePos, myPos);
 	if (distFromMouse <= magnetPower && !waiting) {
-		transform.position = Vector2.Lerp(myPos, mousePos, Time.deltaTime * 5 * momentum);
+		transform.position = Vector2.Lerp(myPos, mousePos, Time.deltaTime * 8 * momentum);
 		transform.position.z = oldZ;
 		momentum *= 1.01;
 		pulledByMouse = true;
@@ -95,6 +103,7 @@ function FlyToMouse () {
 		momentum = 1;
 	}
 }
+
 
 
 //
