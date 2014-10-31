@@ -11,6 +11,7 @@ var hover = false;
 var pos : float;
 
 var par : GameObject;
+var parChosen : GameObject;
 
 gameObject.tag = "tagPerson";
 
@@ -26,7 +27,7 @@ function GetSpriteList (personNum) {
 
 function Start () {
 	sprList = GetSpriteList(personNum);
-	CreateParticleSystem();
+	CreateParticleSystems();
 	par.GetComponent(scrParticles).PersonCreationBurst();
 	SetSounds();
 	
@@ -37,6 +38,7 @@ function OnMouseDown () {
 	Debug.Log("Person been clicked" + personNum.ToString());
 	if (winner) {
 		chosen = true;
+		parChosen.GetComponent(ParticleSystem).Play();
 	}
 	else {
 		sound1.Play();
@@ -63,8 +65,12 @@ function Update () {
 	if (hover) {
 		transform.position.y = Mathf.Lerp(transform.position.y, pos + 0.2, Time.deltaTime * 8);
 	}
-	else {
+	else if (chosen == false) {
 		transform.position.y = Mathf.Lerp(transform.position.y, pos, Time.deltaTime * 8);
+	}
+	
+	if (parChosen.GetComponent(ParticleSystem).isPlaying && chosen == false) {
+		parChosen.GetComponent(ParticleSystem).Stop();
 	}
 }
 
@@ -78,10 +84,14 @@ function SetSounds () {
 	sound1.playOnAwake = false;
 }
 
-function CreateParticleSystem () {
+function CreateParticleSystems () {
 	par = Instantiate(Resources.Load("Prefabs/Particles/PersonParticles"));
 	par.transform.parent = gameObject.transform;
 	par.transform.localPosition = Vector3(0,0,-1);
+	
+	parChosen = Instantiate(Resources.Load("Prefabs/Particles/ParticlesChosen"));
+	parChosen.transform.parent = gameObject.transform;
+	parChosen.transform.localPosition = Vector3(0,0,-1);
 }
 function OnMouseEnter () {
 	hover = true;
