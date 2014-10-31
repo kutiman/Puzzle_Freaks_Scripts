@@ -69,7 +69,7 @@ function Update () {
 	
 }
 
-function OnMouseOver () {
+function PickUpCoin () {
 	var waitTime = 0.7;
 	if (Time.time - waitTime > timeBorn) {
 		scrConGame.totalCoins++;
@@ -80,6 +80,7 @@ function OnMouseOver () {
 }
 
 function FlyToMouse () {
+	var pickupDistance = 1;
 	var oldZ = transform.position.z;
 	var waiting = true;
 	var waitTime = 0.7;
@@ -92,8 +93,11 @@ function FlyToMouse () {
 	var mousePos : Vector2 = cam.ScreenToWorldPoint(Input.mousePosition);
 	var myPos : Vector2 = gameObject.transform.position;
 	var distFromMouse = Vector2.Distance(mousePos, myPos);
+	if (distFromMouse <= pickupDistance && !waiting) {
+		PickUpCoin();
+	}
 	if (distFromMouse <= magnetPower && !waiting) {
-		transform.position = Vector2.Lerp(myPos, mousePos, Time.deltaTime * 8 * momentum);
+		transform.position = Vector2.Lerp(myPos, mousePos, Time.deltaTime * 4 * momentum);
 		transform.position.z = oldZ;
 		momentum *= 1.01;
 		pulledByMouse = true;

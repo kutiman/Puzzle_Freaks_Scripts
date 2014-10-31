@@ -29,7 +29,7 @@ function Update () {
 		var cam : Camera = GameObject.Find("MainCamera").camera;
 		var mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
 		obj.transform.position = mousePos;
-		obj.transform.position.z = -10;
+		obj.transform.position.z = -2;
 	}
 }
 

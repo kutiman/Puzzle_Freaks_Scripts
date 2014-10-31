@@ -41,6 +41,7 @@ function OnMouseDown () {
 		parChosen.GetComponent(ParticleSystem).Play();
 	}
 	else {
+		RisingText ();
 		sound1.Play();
 	}
 }
@@ -101,6 +102,12 @@ function OnMouseExit () {
 	hover = false;
 }
 
+function RisingText () {
+	var obj : GameObject = Instantiate(Resources.Load("Prefabs/Texts/objRisingText"));
+	obj.transform.position = gameObject.transform.position;
+	obj.transform.position.z -= 1;	
+	return obj;
+}
 
 
 
