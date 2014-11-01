@@ -18,7 +18,7 @@ var peopleState = "normal";
 var game = "duplicate";
 var levelCoins = 0;
 var correctAnswers = 0;
-
+var chosens = 0;
 var majDifference = 1;
 var majGroups = 2;
 
@@ -114,7 +114,7 @@ function Start () {
 }
 
 function Update () {
-	var chosens = 0;
+	chosens = 0;
 	var objs = GameObject.FindGameObjectsWithTag ("tagPerson");
 	for (var obj : GameObject in objs) {
 		if (obj.GetComponent(scrPerson).chosen == true) {
@@ -230,6 +230,7 @@ function Restart() {
 	LevelProperties();
 	ShuffleRoundDuplicates(peopleAmount,winners);
 	CreateTimer();
+	DirectionsText();
 	GetComponent(AudioSource).Play();
 	gameWon = false;
 	correctAnswers = 0;
@@ -286,3 +287,27 @@ function PlayCoinSound () {
 	var i = Random.Range(0,coinsAudioSource.Length);
 	coinsAudioSource[i].Play();
 }
+
+function DirectionsText () {
+	var textToShow = "Find " + winners.ToString() + " look-alikes";
+	var obj : GameObject = Instantiate(Resources.Load("Prefabs/Texts/objTextHeader"));
+	obj.GetComponent(TextMesh).text = textToShow;
+	obj.transform.position = Vector3(0,6,-6);
+	
+	yield WaitForSeconds(3);
+	
+	gameObject.Destroy(obj);
+}
+
+function FindsText () {
+	var textToShow = chosens.ToString() + " / " + winners.ToString();
+	var obj : GameObject = Instantiate(Resources.Load("Prefabs/Texts/objTextHeader"));
+	obj.controller = gameObject;
+	obj.transform.position = Vector3(0,7,-6);
+}
+
+
+
+
+
+
