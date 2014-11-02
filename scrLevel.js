@@ -111,6 +111,7 @@ function Start () {
 	SetSounds();
 	gameObject.name = "conLevel";
 	Restart();
+	CreateInterface();
 }
 
 function Update () {
@@ -230,7 +231,6 @@ function Restart() {
 	LevelProperties();
 	ShuffleRoundDuplicates(peopleAmount,winners);
 	CreateTimer();
-	DirectionsText();
 	GetComponent(AudioSource).Play();
 	gameWon = false;
 	correctAnswers = 0;
@@ -288,6 +288,14 @@ function PlayCoinSound () {
 	coinsAudioSource[i].Play();
 }
 
+function CreateInterface () {
+	var obj : GameObject = Instantiate(Resources.Load("Prefabs/conInterface"));
+	var objScript : scrInterface = obj.GetComponent(scrInterface);
+	objScript.controller = gameObject;
+	objScript.winners = winners;
+	objScript.chosens = chosens;
+}
+/*
 function DirectionsText () {
 	var textToShow = "Find " + winners.ToString() + " look-alikes";
 	var obj : GameObject = Instantiate(Resources.Load("Prefabs/Texts/objTextHeader"));
@@ -305,7 +313,7 @@ function FindsText () {
 	obj.controller = gameObject;
 	obj.transform.position = Vector3(0,7,-6);
 }
-
+*/
 
 
 
