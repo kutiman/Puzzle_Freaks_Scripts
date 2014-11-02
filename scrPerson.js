@@ -41,6 +41,8 @@ function OnMouseDown () {
 		parChosen.GetComponent(ParticleSystem).Play();
 	}
 	else {
+		var obj : GameObject = GameObject.Find("objTimer");
+		obj.GetComponent(scrTimer).timeToCount -= 3;
 		RisingText ();
 		sound1.Play();
 	}

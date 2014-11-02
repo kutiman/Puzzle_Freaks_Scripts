@@ -10,6 +10,7 @@ var winners : int;
 var chosens : int;
 
 function Start () {
+	gameObject.name = "conInterface";
 	LevelInterface();
 }
 
@@ -22,14 +23,16 @@ function Update () {
 	
 	if (txtChosens) {
 		txtChosens.GetComponent(TextMesh).text = chosens.ToString() + " / " + winners.ToString();
+		txtChosens.transform.parent = gameObject.transform;
 	}
 	if (txtTotalCoins) {
-		txtTotalCoins.GetComponent(TextMesh).text = scrConGame.totalCoins;
+		txtTotalCoins.GetComponent(TextMesh).text = scrConGame.totalCoins.ToString();
+		txtTotalCoins.transform.parent = gameObject.transform;
 	}
 }
 
 
-function CreateTextObject (objName : string) {
+function CreateTextObject (objName : String) {
 	var obj : GameObject = Instantiate(Resources.Load("Prefabs/Texts/" + objName));
 	gameObject.transform.parent = gameObject.transform;
 	obj.transform.position = Vector3(0,0,-6);
@@ -38,13 +41,13 @@ function CreateTextObject (objName : string) {
 
 function LevelInterface () {
 	txtChosens = CreateTextObject("objTextHeader");
-	txtChosens.transform.localPosition = (0,7,-6);
+	txtChosens.transform.localPosition = Vector3(0,7,-6);
 	
 	txtTotalCoins = CreateTextObject("objTextHeader");
-	txtTotalCoins.transform.localPosition = (5,7,-6);
+	txtTotalCoins.transform.localPosition = Vector3(5,7,-6);
 	
 	txtDirections = CreateTextObject("objTextHeader");
-	txtDirections.transform.localPosition = (0,6,-6);
+	txtDirections.transform.localPosition = Vector3(0,6,-6);
 	txtDirections.GetComponent(TextMesh).text = "Find " + winners.ToString() + " look-alikes";
 	yield WaitForSeconds(3);
 	gameObject.Destroy(txtDirections);

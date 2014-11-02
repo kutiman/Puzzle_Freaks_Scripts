@@ -73,7 +73,7 @@ function PickUpCoin () {
 	var waitTime = 0.7;
 	if (Time.time - waitTime > timeBorn) {
 		scrConGame.totalCoins++;
-		levelControllerScript.PlayCoinSound();
+		scrSound.PlayCoinSound();
 		gameObject.Destroy(gameObject);
 	}
 

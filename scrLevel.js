@@ -22,16 +22,6 @@ var chosens = 0;
 var majDifference = 1;
 var majGroups = 2;
 
-var audioClip = new AudioClip[4];
-var audioSource = new AudioSource[4];
-
-var coinsAudioClip = new AudioClip[8];
-var coinsAudioSource = new AudioSource[8];
-
-var sndSuccess : AudioSource;
-var sndFail : AudioSource;
-var sndChimes : AudioSource;
-
 function SpaceGrid (horSpace : float, verSpace : float, amount : int, anchor : Array) {
 
 	var ancX : float = anchor[0];
@@ -104,14 +94,12 @@ function ShuffleRoundDuplicates (amount : int, winners : int) {
 		}
 	}
 	
-	sndChimes.Play();
+	scrSound.sndChimes.Play();
 }
 
 function Start () {
-	SetSounds();
 	gameObject.name = "conLevel";
 	Restart();
-	CreateInterface();
 }
 
 function Update () {
@@ -131,13 +119,23 @@ function Update () {
 	if (chosens == winners && !gameWon) {
 	answerCorrect();
 	}
+	// making coins DEBUG
+	///*
+	if (Input.GetMouseButton(0)) {
+	var obj : GameObject = Instantiate(Resources.Load("Prefabs/objCoin"));
+	var cam : Camera = GameObject.Find("MainCamera").camera;
+	var mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+	obj.transform.position = mousePos;
+	obj.transform.position.z = -2;
+	}
+	//*/
 }
 
 function answerCorrect () {
 	correctAnswers++;
 	ShuffleRoundDuplicates(peopleAmount,winners);
-	var i = Random.Range(0,audioSource.Length);
-	audioSource[i].Play();
+	var i = Random.Range(0,scrSound.audioSource.Length);
+	scrSound.audioSource[i].Play();
 }
 
 function answerWrong () {
@@ -211,8 +209,8 @@ function DestroyTimer () {
 }
 
 function GameWon() {
-	GetComponent(AudioSource).Stop();
-	sndSuccess.Play();
+	scrSound.StopMusic();
+	scrSound.sndSuccess.Play();
 	gameWon = true;
 	DestroyPeople();
 	DestroyTimer();
@@ -220,8 +218,8 @@ function GameWon() {
 }
 
 function TimeOut () {
-	GetComponent(AudioSource).Stop();
-	sndFail.Play();
+	scrSound.StopMusic();
+	scrSound.sndFail.Play();
 	DestroyPeople();
 	DestroyTimer();
 	var obj : GameObject = Instantiate(Resources.Load("Prefabs/MenuEnd"));
@@ -231,9 +229,10 @@ function Restart() {
 	LevelProperties();
 	ShuffleRoundDuplicates(peopleAmount,winners);
 	CreateTimer();
-	GetComponent(AudioSource).Play();
 	gameWon = false;
 	correctAnswers = 0;
+	CreateInterface();
+	scrSound.PlayMusic();
 }
 
 function NextLevel () {
@@ -243,79 +242,14 @@ function NextLevel () {
 	}
 }
 
-function SetSounds () {
-	audioClip[0] = Resources.Load("Sounds/snd_respect");
-	audioClip[1] = Resources.Load("Sounds/snd_so_easy");
-	audioClip[2] = Resources.Load("Sounds/snd_yeah");
-	audioClip[3] = Resources.Load("Sounds/snd_thats_right");
-	
-	audioSource = new AudioSource[audioClip.Length];
-	for (var n = 0; n < audioSource.Length; n++) {
-		audioSource[n] = gameObject.AddComponent(AudioSource);
-		audioSource[n].clip = audioClip[n];
-		audioSource[n].loop = false;
-		audioSource[n].playOnAwake = false;
-	}
-	sndSuccess = gameObject.AddComponent(AudioSource);
-	sndSuccess.clip = Resources.Load("Sounds/snd_clapping");
-	
-	sndFail = gameObject.AddComponent(AudioSource);
-	sndFail.clip = Resources.Load("Sounds/snd_time_up");
-	
-	sndChimes = gameObject.AddComponent(AudioSource);
-	sndChimes.clip = Resources.Load("Sounds/snd_chimes");
-	
-	coinsAudioClip[0] = Resources.Load("Sounds/snd_coin1");
-	coinsAudioClip[1] = Resources.Load("Sounds/snd_coin2");
-	coinsAudioClip[2] = Resources.Load("Sounds/snd_coin3");
-	coinsAudioClip[3] = Resources.Load("Sounds/snd_coin4");
-	coinsAudioClip[4] = Resources.Load("Sounds/snd_coin5");
-	coinsAudioClip[5] = Resources.Load("Sounds/snd_coin6");
-	coinsAudioClip[6] = Resources.Load("Sounds/snd_coin7");
-	coinsAudioClip[7] = Resources.Load("Sounds/snd_coin8");
-	
-	coinsAudioSource = new AudioSource[coinsAudioClip.Length];
-	for (var i = 0; i < coinsAudioSource.Length; i++) {
-		coinsAudioSource[i] = gameObject.AddComponent(AudioSource);
-		coinsAudioSource[i].clip = coinsAudioClip[i];
-		coinsAudioSource[i].loop = false;
-		coinsAudioSource[i].playOnAwake = false;
-	}
-}
-
-function PlayCoinSound () {
-	var i = Random.Range(0,coinsAudioSource.Length);
-	coinsAudioSource[i].Play();
-}
-
 function CreateInterface () {
+	var objInterface : GameObject = GameObject.Find("conInterface");
+	if (objInterface) {
+		objInterface.Destroy(objInterface.gameObject);
+	}
 	var obj : GameObject = Instantiate(Resources.Load("Prefabs/conInterface"));
 	var objScript : scrInterface = obj.GetComponent(scrInterface);
 	objScript.controller = gameObject;
 	objScript.winners = winners;
 	objScript.chosens = chosens;
 }
-/*
-function DirectionsText () {
-	var textToShow = "Find " + winners.ToString() + " look-alikes";
-	var obj : GameObject = Instantiate(Resources.Load("Prefabs/Texts/objTextHeader"));
-	obj.GetComponent(TextMesh).text = textToShow;
-	obj.transform.position = Vector3(0,6,-6);
-	
-	yield WaitForSeconds(3);
-	
-	gameObject.Destroy(obj);
-}
-
-function FindsText () {
-	var textToShow = chosens.ToString() + " / " + winners.ToString();
-	var obj : GameObject = Instantiate(Resources.Load("Prefabs/Texts/objTextHeader"));
-	obj.controller = gameObject;
-	obj.transform.position = Vector3(0,7,-6);
-}
-*/
-
-
-
-
-
