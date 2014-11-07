@@ -36,7 +36,7 @@ public function CharacterPositionsScattered (amount : int) {
 	var i = 0;
 	while (i < amount){
 	
-		var pos : Vector2 = Vector2(Random.Range(-6,6),Random.Range(-6,6));
+		var pos : Vector2 = Vector2(Random.Range(-8,8),Random.Range(-6,6));
 		var tooClose = false;
 		for (var n = 0; n < amount; n++) {
 			var vec : Vector2 = Vector2(grid[n,0],grid[n,1]);
