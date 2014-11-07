@@ -1,5 +1,7 @@
 ﻿#pragma strict
 
+var scrCharPos : scrCharacterPositions;
+
 var level = 0;
 var totalLevels = 20;
 // level prperties
@@ -22,7 +24,8 @@ var chosens = 0;
 var majDifference = 1;
 var majGroups = 2;
 
-function SpaceGrid (horSpace : float, verSpace : float, amount : int, anchor : Array) {
+/*
+function CharacterPositionsRows (horSpace : float, verSpace : float, amount : int, anchor : Array) {
 
 	var ancX : float = anchor[0];
 	var ancY : float = anchor[1];
@@ -52,8 +55,8 @@ function SpaceGrid (horSpace : float, verSpace : float, amount : int, anchor : A
 	    grid[i,1] = pos[1];
 	}
 	return grid;
-	Debug.Log("created grid");
 };
+*/
 
 function CheckArray (arr : Array, n) {
 	var exists = false;
@@ -82,8 +85,8 @@ function ShuffleRoundDuplicates (amount : int, winners : int) {
 		peopleList.Add(winnerNum);
 	}
 	peopleList = ShuffleArray(peopleList);
-	var anchor : Array = [0,0];
-	var grid = SpaceGrid(2.5,2.5,amount,anchor);
+	var anchor : Vector2 = Vector2(0,0);
+	var grid = scrCharPos.CharacterPositionsRows(2.5,2.5,amount,anchor);
 	for (var item = 0; item < peopleList.length; item++) {
 		var obj : GameObject = Instantiate(Resources.Load("Prefabs/Person"));
 		obj.transform.parent = gameObject.transform;
@@ -99,6 +102,8 @@ function ShuffleRoundDuplicates (amount : int, winners : int) {
 
 function Start () {
 	gameObject.name = "conLevel";
+	scrCharPos = GetComponent(scrCharacterPositions);
+	
 	Restart();
 }
 
