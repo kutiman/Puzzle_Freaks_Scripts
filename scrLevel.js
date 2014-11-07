@@ -24,40 +24,6 @@ var chosens = 0;
 var majDifference = 1;
 var majGroups = 2;
 
-/*
-function CharacterPositionsRows (horSpace : float, verSpace : float, amount : int, anchor : Array) {
-
-	var ancX : float = anchor[0];
-	var ancY : float = anchor[1];
-	var grid : float[,] = new float[amount,2]; 
-		
-	for (var i = 0; i < amount; i++){
-	
-		var pos : Array = [null,null];
-	    if (i % 2 == 0)
-	    {
-	        pos[0] = ancX + horSpace/2 + (Mathf.FloorToInt(i/6) * horSpace);        
-	        switch (i % 3) {
-	            case 0: pos[1] = ancY; break;
-	            case 1: pos[1] = ancY - verSpace; break;
-	            case 2: pos[1] = ancY + verSpace; break;
-	        }
-	    }
-	    else {
-	        pos[0] = ancX - horSpace/2 - (Mathf.FloorToInt(i/6) * horSpace);
-	        switch (i % 3) {
-	            case 0: pos[1] = ancY + verSpace; break;
-	            case 1: pos[1] = ancY; break;
-	            case 2: pos[1] = ancY - verSpace; break;
-	        }
-	    }
-	    grid[i,0] = pos[0];
-	    grid[i,1] = pos[1];
-	}
-	return grid;
-};
-*/
-
 function CheckArray (arr : Array, n) {
 	var exists = false;
 	for(var item : int in arr)
@@ -86,7 +52,8 @@ function ShuffleRoundDuplicates (amount : int, winners : int) {
 	}
 	peopleList = ShuffleArray(peopleList);
 	var anchor : Vector2 = Vector2(0,0);
-	var grid = scrCharPos.CharacterPositionsRows(2.5,2.5,amount,anchor);
+	//var grid = scrCharPos.CharacterPositionsRows(2.5,2.5,amount,anchor);
+	var grid = scrCharPos.CharacterPositionsScattered(amount);
 	for (var item = 0; item < peopleList.length; item++) {
 		var obj : GameObject = Instantiate(Resources.Load("Prefabs/Person"));
 		obj.transform.parent = gameObject.transform;
@@ -172,7 +139,7 @@ function LevelProperties () {
 	switch (level) {
 		case 0: break;
 		case 1: props = [120,6,5,10,2]; break;
-		case 2: props = [120,6,5,12,3]; break;
+		case 2: props = [120,6,5,30,5]; break;
 		case 3: props = [120,6,5,14,2]; break;
 		case 4: props = [120,6,5,16,2]; break;
 		case 5: props = [120,6,5,18,2]; break;

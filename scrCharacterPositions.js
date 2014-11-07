@@ -30,31 +30,27 @@ public function CharacterPositionsRows (horSpace : float, verSpace : float, amou
 	return grid;
 };
 
-public function CharacterPositionsScattered (amount : int, anchor : Vector2) {
+public function CharacterPositionsScattered (amount : int) {
 
-	var positionsList : Vector2[];
+	var grid : float[,] = new float[amount,2]; 
+	var i = 0;
+	while (i < amount){
 	
-	for (var i = 0; i < amount; i++){
-	
-		var pos : Vector2;
-	    if (i % 2 == 0)
-	    {
-	        pos.x = anchor.x + 2.5/2 + (Mathf.FloorToInt(i/6) * 2.5);        
-	        switch (i % 3) {
-	            case 0: pos.y = anchor.y; break;
-	            case 1: pos.y = anchor.y - 2.5; break;
-	            case 2: pos.y = anchor.y + 2.5; break;
-	        }
-	    }
-	    else {
-	        pos.x = anchor.x - 2.5/2 - (Mathf.FloorToInt(i/6) * 2.5);
-	        switch (i % 3) {
-	            case 0: pos.y = anchor.y + 2.5; break;
-	            case 1: pos.y = anchor.y; break;
-	            case 2: pos.y = anchor.y - 2.5; break;
-	        }
-	    }
-	    positionsList[i] = pos;
+		var pos : Vector2 = Vector2(Random.Range(-6,6),Random.Range(-6,6));
+		var tooClose = false;
+		for (var n = 0; n < amount; n++) {
+			var vec : Vector2 = Vector2(grid[n,0],grid[n,1]);
+			
+			if (Vector2.Distance(pos,vec) < 1.7) {
+				tooClose = true;
+			}
+		}
+		if (!tooClose) {
+			grid[i,0] = pos.x;
+			grid[i,1] = pos.y;
+			i++;		
+		}
+
 	}
-	return positionsList;
-}
+	return grid;
+};
