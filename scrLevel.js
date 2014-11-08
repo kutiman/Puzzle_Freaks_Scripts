@@ -24,6 +24,8 @@ var chosens = 0;
 var majDifference = 1;
 var majGroups = 2;
 
+var interfaceSkin : GUISkin;
+
 function CheckArray (arr : Array, n) {
 	var exists = false;
 	for(var item : int in arr)
@@ -70,8 +72,6 @@ function ShuffleRoundDuplicates (amount : int, winners : int) {
 function Start () {
 	gameObject.name = "conLevel";
 	scrCharPos = GetComponent(scrCharacterPositions);
-	
-	Restart();
 }
 
 function Update () {
@@ -205,12 +205,30 @@ function Restart() {
 	correctAnswers = 0;
 	CreateInterface();
 	scrSound.PlayMusic();
+	start = true;
+}
+
+function OnGUI() {
+	if (!start) {
+		LevelProperties();
+		interfaceSkin = Resources.Load("Skins/skinStartLevel");
+		GUI.skin = interfaceSkin;
+		var posRect : Rect = Rect(0, (Screen.height - Screen.height / 3) / 2, Screen.width, Screen.height / 3);
+		GUI.Box (posRect, "Find " + winners.ToString() + " look-alikes");
+		GUI.Label (Rect(0, (Screen.height - Screen.height / 3) / 2 + 40, Screen.width, Screen.height / 3), neededAnswers.ToString() + " rounds");
+		GUI.Label (Rect(0, (Screen.height - Screen.height / 3) / 2 + 65, Screen.width, Screen.height / 3), levelDuration.ToString() + " seconds");
+		if (Input.GetMouseButton(1)) {
+			Restart();
+		}
+	}
+	
 }
 
 function NextLevel () {
 	if (level < totalLevels) {
 		level++;
-		Restart();
+		LevelProperties();
+		start = false;
 	}
 }
 
