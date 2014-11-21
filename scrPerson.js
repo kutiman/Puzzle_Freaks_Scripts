@@ -35,7 +35,7 @@ function Start () {
 }
 
 function OnMouseDown () {
-	Debug.Log("Person been clicked" + personNum.ToString());
+
 	if (winner) {
 		chosen = true;
 		parChosen.GetComponent(ParticleSystem).Play();

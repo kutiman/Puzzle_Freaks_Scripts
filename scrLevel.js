@@ -84,12 +84,12 @@ function Update () {
 	}
 
 	
-	if (gameWon == false && neededAnswers > 0 && neededAnswers == correctAnswers) {
+	if (!gameWon && neededAnswers > 0 && neededAnswers == correctAnswers) {
 		GameWon();
 	}
 	
 	if (chosens == winners && !gameWon) {
-	answerCorrect();
+		AnswerCorrect();
 	}
 	// making coins DEBUG
 	///*
@@ -103,14 +103,14 @@ function Update () {
 	//*/
 }
 
-function answerCorrect () {
+function AnswerCorrect () {
 	correctAnswers++;
 	ShuffleRoundDuplicates(peopleAmount,winners);
 	var i = Random.Range(0,scrSound.audioSource.Length);
 	scrSound.audioSource[i].Play();
 }
 
-function answerWrong () {
+function AnswerWrong () {
 	
 }
 
@@ -133,33 +133,9 @@ function ShuffleArray (myArray : Array) {
    return myArray;
 }
 
-function LevelProperties () {
+function GetLevelProperties () {
 	var props : Array = new Array();
-		// [levelDuration,roundDuration,neededAnswers,peopleAmount,winners] 
-	switch (level) {
-		case 0: break;
-		case 1: props = [120,6,5,10,2]; break;
-		case 2: props = [120,6,5,30,5]; break;
-		case 3: props = [120,6,5,14,2]; break;
-		case 4: props = [120,6,5,16,2]; break;
-		case 5: props = [120,6,5,18,2]; break;
-		case 6: props = [120,6,5,20,2]; break;
-		case 7: props = [120,6,5,22,2]; break;
-		case 8: props = [120,6,5,24,2]; break;
-		case 9: props = [120,6,5,26,2]; break;
-		case 10: props = [120,6,5,28,2]; break;
-		case 11: props = [120,6,5,30,2]; break;
-		case 12: props = [120,6,5,10,2]; break;
-		case 13: props = [120,6,5,10,2]; break;
-		case 14: props = [120,6,5,10,2]; break;
-		case 15: props = [120,6,5,10,2]; break;
-		case 16: props = [120,6,5,10,2]; break;
-		case 17: props = [120,6,5,10,2]; break;
-		case 18: props = [120,6,5,10,2]; break;
-		case 19: props = [120,6,5,10,2]; break;
-		case 20: props = [120,6,5,10,2]; break;
-		default: break;
-	}
+	props = GetComponent(scrLevelProperties).LevelProperties(level);
 	levelDuration = props[0];
 	roundDuration = props[1];
 	neededAnswers = props[2];
@@ -198,7 +174,7 @@ function TimeOut () {
 }
 
 function Restart() {
-	LevelProperties();
+	GetLevelProperties();
 	ShuffleRoundDuplicates(peopleAmount,winners);
 	CreateTimer();
 	gameWon = false;
@@ -210,7 +186,7 @@ function Restart() {
 
 function OnGUI() {
 	if (!start) {
-		LevelProperties();
+		GetLevelProperties();
 		interfaceSkin = Resources.Load("Skins/skinStartLevel");
 		GUI.skin = interfaceSkin;
 		var posRect : Rect = Rect(0, (Screen.height - Screen.height / 3) / 2, Screen.width, Screen.height / 3);
@@ -227,7 +203,7 @@ function OnGUI() {
 function NextLevel () {
 	if (level < totalLevels) {
 		level++;
-		LevelProperties();
+		GetLevelProperties();
 		start = false;
 	}
 }

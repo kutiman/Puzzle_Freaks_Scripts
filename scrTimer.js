@@ -19,9 +19,6 @@ function Start () {
 
 function Update () {
 	counter = (startTime + timeToCount) - Time.time;
-	if (Input.GetMouseButtonDown(0)) {
-		Debug.Log(counter);
-	}
 	if (counter < 0) {counter = 0;}
 	var seconds : int = Mathf.CeilToInt(counter % 60);
 	var minutes : int = Mathf.FloorToInt(counter/60);
