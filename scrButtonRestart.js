@@ -17,7 +17,7 @@ public class scrButtonRestart extends scrButtonParent {
 	
 	function OnMouseDown () {
 		var obj : GameObject = GameObject.Find("conLevel");
-		obj.GetComponent(scrLevel).Restart();
+		obj.GetComponent(scrLevelDuplicates).Restart();
 		menu.GetComponent(scrMenuEnd).DestroySelf();
 	}
 }
