@@ -6,6 +6,8 @@ static var minCoins : int = 1;
 static var maxCoins : int = 1;
 static var level : int = 0;
 static var magnetPower = 50;
+static var beatSpeed = 0.5;
+static var lastBeat : float = 0.0;
 
 function CreateText (textString : String) {
 	var go : GameObject = new GameObject("objText");
@@ -24,8 +26,11 @@ function Menu () {
 }
 
 function Update () {
-
+	DropTheBeat();
 }
 
- 
-
+function DropTheBeat () {
+	if (Time.time >= lastBeat + beatSpeed) {
+		lastBeat = Time.time;
+	}
+}

@@ -7,15 +7,18 @@ var lastFlash : float = 0.0;
 var lightComp : Light;
 var colorList : Array = new Array();
 
-private var dimSpeed = 0.5;
-private var lightIntensity = 0.5;
+private var lightIntensity = 0.3;
 
 function Start () {
 	
 	lightComp = gameObject.GetComponent(Light);
-	colorList[0] = Color.red;
-	colorList[1] = Color.blue;
-	colorList[2] = Color.green;
+	colorList.Add(Color.red);
+	colorList.Add(Color.blue);
+	colorList.Add(Color.green);
+	colorList.Add(Color.yellow);
+	colorList.Add(Color.gray);
+	colorList.Add(Color.cyan);
+	colorList.Add(Color.magenta);
 	
 	SetLight(lightComp, 1);
 }
@@ -28,28 +31,29 @@ function Update () {
 function SetLight (comp : Light, colorNumber : int) {
 	comp.type = LightType.Spot;
 	comp.range = 50;
-	comp.intensity = 0.3;
+	comp.intensity = 0.5;
 	comp.spotAngle = Random.Range(50,60);
 	if (colorNumber > colorList.length - 1) {colorNumber = colorList.length - 1;}
 	lightComp.color = colorList[colorNumber];
 }
-
+/*
 function DimLight() {
 	if (lightComp.intensity <= 0.1 && dimming) {dimming = false;}
 	if (lightComp.intensity >= 0.5 && !dimming) {dimming = true;}
 	
-	if (dimming) {lightComp.intensity -= Time.deltaTime * dimSpeed;}
-	else {lightComp.intensity += Time.deltaTime * dimSpeed;}
+	if (dimming) {lightComp.intensity -= Time.deltaTime * beatSpeed;}
+	else {lightComp.intensity += Time.deltaTime * beatSpeed;}
 }
-
+*/
 function ChangeColor () {
-
+	lightComp.color = colorList[Random.Range(0, colorList.length - 1)];
 }
 
 function FlashLight() {
-	if (lastFlash + dimSpeed <= Time.time) {
+	if (lastFlash != scrConGame.lastBeat) {
 		ToggleLight();
-		lastFlash = Time.time;
+		ChangeColor();
+		lastFlash = scrConGame.lastBeat;
 	}
 }
 
@@ -58,7 +62,4 @@ function ToggleLight() {
 	if (lightOn) {lightComp.intensity = lightIntensity;}
 	else {lightComp.intensity = 0.0;}
 }
-
-
-
 

@@ -1,6 +1,6 @@
 ﻿#pragma strict
 
-var nextStep = 0.18;
+var lastMove : float = 0.0;
 var personNum = 1;
 var subImage = 0;
 var sprList = new Array();
@@ -49,21 +49,21 @@ function OnMouseDown () {
 }
 
 
-function Dance (danceSpeed : float) {
+function Dance () {
 
-
-	if(Time.time >= nextStep){
-		nextStep = Time.time + danceSpeed;
+	
+	if(lastMove != scrConGame.lastBeat){
 		subImage++;
 		if (subImage >= sprList.length) {
 			subImage = 0;
 		}
 		GetComponent(SpriteRenderer).sprite = sprList[subImage];
+		lastMove = scrConGame.lastBeat;
 	}
 }
 
 function Update () {
-	Dance(0.514);
+	Dance();
 	
 	if (hover) {
 		transform.position.y = Mathf.Lerp(transform.position.y, pos + 0.2, Time.deltaTime * 8);
